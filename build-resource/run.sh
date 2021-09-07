@@ -377,6 +377,7 @@ list_seconds=$SECONDS
 echo "Removing intermediate files [INIT]"
 
 cd ..
+cp -r result/transcriptions/ .
 cp -r result/page/ .
 cp -r result/tei/ .
 cp result/PRHLT_DATA.zip .
