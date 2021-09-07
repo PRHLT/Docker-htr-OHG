@@ -333,6 +333,7 @@ if [ ! -f sampling_generated ]; then
 	mv $SDIR/word/* PRHLT_DATA/ 
 	mkdir PRHLT_DATA/images
 	mkdir PRHLT_DATA/page
+	cp -r transcriptions/ PRHLT_DATA/
 	while read i; do
 		cp /data/$i.tif PRHLT_DATA/images/$i.tif;
 		cp /data/page/$i.xml PRHLT_DATA/page/$i.xml;
@@ -377,7 +378,6 @@ list_seconds=$SECONDS
 echo "Removing intermediate files [INIT]"
 
 cd ..
-cp -r result/transcriptions/ .
 cp -r result/page/ .
 cp -r result/tei/ .
 cp result/PRHLT_DATA.zip .
