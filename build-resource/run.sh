@@ -275,7 +275,7 @@ if [ ! -f sampling_generated ]; then
 		--save-symbols=${tmp_dir}/${lat_name}_symbs.lst \
 		"$int_word_sep" \
 		"ark:$l" "ark,t:${tmp_dir}/${lat_name}_tmp.lat" || \
-		/picods-soft/lattice-char-to-word/lattice-char-to-word --beam=5.0 --save-symbols=${tmp_dir}/${lat_name}_symbs.lst \
+		/pidocs-soft/lattice-char-to-word/lattice-char-to-word --beam=5.0 --save-symbols=${tmp_dir}/${lat_name}_symbs.lst \
 		"$int_word_sep" \
 		"ark:$l" "ark,t:${tmp_dir}/${lat_name}_tmp.lat";
 		awk '{print $2" "$1}' ${tmp_dir}/${lat_name}_symbs.lst |
