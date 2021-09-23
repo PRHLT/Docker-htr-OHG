@@ -104,7 +104,7 @@ echo "Generating images list [INIT]"
 if [ ! -f lines.lst ]; then
 	ls extracted_images/ > kkk;
 	cat kkk | cut -d '/' -f2 > lines.lst;
-	sed -i 's/\.png//g' lines.lst;
+	sed -i 's/\.png\s*$//g' lines.lst;
 	rm kkk;
 fi	
 generation_seconds=$SECONDS
