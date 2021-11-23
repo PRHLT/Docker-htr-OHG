@@ -92,9 +92,11 @@ if [ ! -f extracted_all_images ]; then
 		touch extracted_all_images;
 	fi
 
+	cp -r extracted_images/ extracted_images_og/
 	cd extracted_images/
-	for i in *; do mv $i `echo $i | cut -d_ -f1,4,5,6,7,8,9,10,11,12,13,14,15 | sed 's/_T/.T/g' | sed 's/_t/.t/g' | sed 's/_l/.l/g' | sed 's/_L/.L/g' | sed 's/_R/.r/g' | sed 's/_r/.r/g'`; done
+	for i in *; do mv $i `echo $i | cut -d_ -f1,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 | sed 's/\_T/\.T/g' | sed 's/\_t/\.t/g' | sed 's/\_l/\.l/g' | sed 's/\_L/\.L/g' | sed 's/\_R/\.R/g' | sed 's/\_r/\.r/g' | sed 's/ine\./ine\_/g' | sed 's/egion\./egion\_/g'`; done
 	cd ..
+
 fi
 extraction_seconds=$SECONDS
 echo "Extracting images from pages [DONE] $extraction_seconds"
@@ -230,8 +232,11 @@ if [ ! -f page_files_generated ]; then
 		d=$(dirname $f);
 		awk '{if(($0!~"TextEquiv>")&&($0!~"Unicode>")) print $0}' /data/${n}.xml > page/${n}.xml
 		for l in transcriptions/*${n}*.txt; do
-			l_id=`echo $l | grep -Po  '[a-zA-Z]+ine_[0-9]+_[0-9]+'`;
-			if [ -z "$l_id" ]; then l_id=`echo $l | grep -Po  '[a-zA-Z]+ine_[0-9]+'`; fi 
+			l_id=`echo $l | grep -Po  '[a-zA-Z]+ine_[a-zA-Z0-9]+_[a-zA-Z0-9]+'`;
+			if [ -z "$l_id" ]; then l_id=`echo $l | grep -Po  '[a-zA-Z]+ine_[a-zA-Z0-9]+'`; fi 
+			if [ -z "$l_id" ]; then l_id=`echo $l | grep -Po  '\.l[a-zA-Z0-9]+_[a-zA-Z0-9]+_[a-zA-Z0-9]+'`; fi; 
+			if [ -z "$l_id" ]; then l_id=`echo $l | grep -Po  '\.l[a-zA-Z0-9]+_[a-zA-Z0-9]+'`; fi; 
+			if [[ $l_id == *.* ]]; then l_id=`echo $l_id | cut -d. -f2`; fi;
 				xmlstarlet ed --inplace -N x="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15" -d "///*[@id=\"${l_id}\"]/x:TextEquiv" -s "///*[@id=\"${l_id}\"]" -t elem -n TMPNODE -v "" -s //TMPNODE -t elem -n Unicode -v "$(<$l)" -r //TMPNODE -v TextEquiv page/${n}.xml
 		done
 	done
