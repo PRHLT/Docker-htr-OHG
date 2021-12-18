@@ -95,6 +95,7 @@ if [ ! -f extracted_all_images ]; then
 	cp -r extracted_images/ extracted_images_og/
 	cd extracted_images/
 	for i in *; do mv $i `echo $i | cut -d_ -f1,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 | sed 's/\_T/\.T/g' | sed 's/\_t/\.t/g' | sed 's/\_l/\.l/g' | sed 's/\_L/\.L/g' | sed 's/\_R/\.R/g' | sed 's/\_r/\.r/g' | sed 's/ine\./ine\_/g' | sed 's/egion\./egion\_/g'`; done
+	for i in *; do fix1=`echo $i | grep "\_png$"`; fix2=`echo $i | grep "\_jpg$"`; fix3=`echo $i | grep "\_jpeg$"`; if [ ! -z $fix1 ] || [ ! -z $fix2 ] || [ ! -z $fix3 ]; then mv $i `echo "$fix1$fix2$fix3" | sed 's/\_png$/\.png/g' | sed 's/\_jpg$/\.jpg/g' | sed 's/\_jpeg$/\.jpeg/g'`; fi; done
 	cd ..
 
 fi
